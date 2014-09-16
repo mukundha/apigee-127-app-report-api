@@ -1,0 +1,143 @@
+swagger: 2.0
+info:
+  version: "0.0.1"
+  title: App to Generate App and Developer Report
+# during dev, should point to your local machine
+host: localhost
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+x-volos-resources: {}
+paths:
+  /o/{orgname}/e/{env}/developers:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: developerReport
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns developer report based on the input params
+      # used as the method name of the controller
+      operationId: getReport
+      parameters:
+        - name: appCreatedFrom
+          in: query
+          description: App Created Start Time - from
+          required: false
+          type: string
+        - name: appCreatedTo
+          in: query
+          description: App Created Start Time - to
+          required: false
+          type: string
+        - name: devCreatedFrom
+          in: query
+          description: Developer Created Start Time - from
+          required: false
+          type: string
+        - name: devCreatedTo
+          in: query
+          description: Developer Created Start Time - to
+          required: false
+          type: string
+        - name: interval
+          in: query
+          description: Traffic Interval
+          required: false
+          type: string
+        - name: sumOfTraffic
+          in: query
+          description: Sum of Traffic equals
+          required: false
+          type: integer
+        - name: sumOfTrafficGt
+          in: query
+          description: Sum of traffic Greater than
+          required: false
+          type: integer
+        - name: sumOfTrafficLt
+          in: query
+          description: Sum of traffic Less than
+          required: false
+          type: integer
+        - name: orgname
+          in: path
+          description: Organization Name
+          required: true
+          type: string
+        - name: env
+          in: path
+          description: Environment Name
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Basic Auth
+          required: false
+          type: string
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: DeveloperReportResponse
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: ErrorResponse
+# complex objects have schema definitions
+definitions:
+  DeveloperReportResponse:
+    properties:
+      Firstname:
+        type: string
+      Lastname:
+        type: string
+      Email:
+        type: string
+      Username:
+        type: string
+      Status:
+        type: string
+      DeveloperCreated:
+        type: string
+      Product:
+        type: string
+      AppName:
+        type: string
+      AppDisplayName:
+        type: string
+      CallbackUrl:
+        type: string
+      AppStatus:
+        type: string
+      AppCreated:
+        type: string
+      ClientId:
+        type: string
+      trafficIntervalFrom:
+        type: string
+      trafficIntervalTo:
+        type: string
+      trafficInterval:
+        type: string
+      SumOfTraffic:
+        type: string
+        
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
