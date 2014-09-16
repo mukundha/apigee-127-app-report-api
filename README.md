@@ -1,5 +1,5 @@
 App, Developer Analytics API
 
-Built using apigee-127
+This is a sample built using apigee-127
 
-
+Refer to https://github.com/apigee-127/a127-documentation for more details on how to use this
